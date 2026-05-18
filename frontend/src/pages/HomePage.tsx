@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWebSocket } from '@/contexts/WebSocketContext';
 import { HomeModal } from '@/components/home/HomeModal';
+import { getUserId } from '@/lib/user';
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ export function HomePage() {
     createdRoomHandlerRef.current = handler;
     on('createdRoom', handler);
 
-    send('createRoom', { name: roomName.trim() });
+    send('createRoom', { name: roomName.trim(), userId: getUserId() });
   }, [roomName, creating, send, on, off, navigate]);
 
   const handleCopyLink = () => {
@@ -79,11 +80,11 @@ export function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#1a2332]">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#0d1b2a]">
       <div className="text-center space-y-8 max-w-md">
         <div className="space-y-2">
           <h1 className="text-4xl font-bold text-white">Planning Poker</h1>
-          <p className="text-[#8fa3b8]">
+          <p className="text-[#5a8aad]">
             Estimate story points with your team
           </p>
         </div>

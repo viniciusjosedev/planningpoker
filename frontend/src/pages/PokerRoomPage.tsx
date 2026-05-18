@@ -129,6 +129,7 @@ export function PokerRoomPage() {
 
   const currentPlayer = room.players.find((p) => p.name === name);
   const isCurrentSpectator = currentPlayer?.isSpectator ?? true;
+  const isOwner = getUserId() === room.ownerId;
 
   return (
     <>
@@ -137,6 +138,7 @@ export function PokerRoomPage() {
         roomId={roomId}
         room={room}
         isCurrentSpectator={isCurrentSpectator}
+        isOwner={isOwner}
         selectedCard={selectedCard}
         showConfetti={showConfetti}
         onVote={handleVote}

@@ -34,22 +34,27 @@ export function PokerCard({
         <div
           className={cn(
             'absolute inset-0 backface-hidden rounded-xl border-2 flex items-center justify-center',
-            'bg-[#2a3a4d] border-[#3a5068]',
-            'shadow-lg group-hover:shadow-xl transition-all',
-            isSelected && 'border-[#60a5fa] shadow-[#60a5fa]/20 bg-[#3b5998]'
+            'bg-[#0f2940] border-[#4a90d9]',
+            'shadow-lg group-hover:shadow-xl group-hover:border-[#6ab0ff] transition-all',
+            isSelected && 'border-[#6ab0ff] shadow-[#4a90d9]/30 bg-[#1a5cb0]'
           )}
         >
-          <div className="text-xl font-bold text-[#8fa3b8]">?</div>
+          <span className={cn(
+            'text-xl font-bold',
+            isSelected ? 'text-white' : 'text-[#5a8aad]'
+          )}>
+            {value}
+          </span>
         </div>
 
         <div
           className={cn(
             'absolute inset-0 backface-hidden rotate-y-180 rounded-xl border-2 flex items-center justify-center',
-            'bg-white border-[#60a5fa]',
+            'bg-white border-[#4a90d9]',
             'shadow-lg'
           )}
         >
-          <span className="text-xl font-bold text-[#1a2332]">{value}</span>
+          <span className="text-xl font-bold text-[#0d1b2a]">{value}</span>
         </div>
       </div>
     </button>

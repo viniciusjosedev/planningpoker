@@ -51,6 +51,7 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
     const ws = new WebSocket(WS_URL);
 
     ws.onopen = () => {
+      if (wsRef.current !== ws) return;
       setConnected(true);
       if (reconnectTimerRef.current) {
         clearTimeout(reconnectTimerRef.current);
@@ -60,13 +61,14 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
     };
 
     ws.onclose = () => {
+      if (wsRef.current !== ws) return;
       setConnected(false);
       wsRef.current = null;
       scheduleReconnect();
     };
 
     ws.onerror = () => {
-      // onclose will fire after onerror, so reconnect is handled there
+      if (wsRef.current !== ws) return;
       setConnected(false);
     };
 
