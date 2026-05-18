@@ -20,7 +20,7 @@ export function PokerCard({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'group relative w-16 h-24 perspective-1000',
+        'group relative w-14 h-20 perspective-1000',
         disabled && 'cursor-not-allowed opacity-50'
       )}
     >
@@ -31,27 +31,25 @@ export function PokerCard({
           isSelected && 'scale-110'
         )}
       >
-        {/* Front of card (face down) */}
         <div
           className={cn(
-            'absolute inset-0 backface-hidden rounded-lg border-2 flex items-center justify-center',
-            'bg-gradient-to-br from-zinc-800 to-zinc-900 border-zinc-700',
-            'shadow-lg group-hover:shadow-xl transition-shadow',
-            isSelected && 'border-white shadow-white/20'
+            'absolute inset-0 backface-hidden rounded-xl border-2 flex items-center justify-center',
+            'bg-[#2a3a4d] border-[#3a5068]',
+            'shadow-lg group-hover:shadow-xl transition-all',
+            isSelected && 'border-[#60a5fa] shadow-[#60a5fa]/20 bg-[#3b5998]'
           )}
         >
-          <div className="text-2xl font-bold text-zinc-500">?</div>
+          <div className="text-xl font-bold text-[#8fa3b8]">?</div>
         </div>
 
-        {/* Back of card (face up - value) */}
         <div
           className={cn(
-            'absolute inset-0 backface-hidden rotate-y-180 rounded-lg border-2 flex items-center justify-center',
-            'bg-gradient-to-br from-white to-zinc-100 border-zinc-300',
+            'absolute inset-0 backface-hidden rotate-y-180 rounded-xl border-2 flex items-center justify-center',
+            'bg-white border-[#60a5fa]',
             'shadow-lg'
           )}
         >
-          <span className="text-2xl font-bold text-black">{value}</span>
+          <span className="text-xl font-bold text-[#1a2332]">{value}</span>
         </div>
       </div>
     </button>

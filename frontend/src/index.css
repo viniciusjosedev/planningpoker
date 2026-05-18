@@ -3,22 +3,22 @@
 @tailwind utilities;
 
 :root {
-  --color-background: #000000;
+  --color-background: #1a2332;
   --color-foreground: #ffffff;
-  --color-card: #111111;
+  --color-card: #2a3a4d;
   --color-card-foreground: #ffffff;
   --color-primary: #ffffff;
-  --color-primary-foreground: #000000;
-  --color-secondary: #222222;
+  --color-primary-foreground: #1a2332;
+  --color-secondary: #243447;
   --color-secondary-foreground: #ffffff;
-  --color-muted: #333333;
-  --color-muted-foreground: #aaaaaa;
-  --color-accent: #444444;
+  --color-muted: #3a5068;
+  --color-muted-foreground: #8fa3b8;
+  --color-accent: #3b5998;
   --color-accent-foreground: #ffffff;
-  --color-border: #333333;
-  --color-input: #222222;
-  --color-ring: #ffffff;
-  --radius: 0.5rem;
+  --color-border: #3a5068;
+  --color-input: #2a3a4d;
+  --color-ring: #60a5fa;
+  --radius: 0.75rem;
 }
 
 * {
@@ -37,7 +37,6 @@ body {
   min-height: 100vh;
 }
 
-/* 3D Card Flip Utilities */
 .perspective-1000 {
   perspective: 1000px;
 }

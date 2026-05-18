@@ -12,23 +12,25 @@ export interface Room {
   average: number | null;
 }
 
-export interface SocketEvents {
-  // Client -> Server
-  createRoom: (name: string, isSpectator: boolean) => void;
-  joinRoom: (roomId: string, name: string, isSpectator: boolean) => void;
-  vote: (value: number) => void;
-  revealVotes: () => void;
-  resetVotes: () => void;
-  leaveRoom: () => void;
+// WebSocket message types
+export type WSMessageType =
+  | 'createRoom'
+  | 'joinRoom'
+  | 'vote'
+  | 'revealVotes'
+  | 'resetVotes'
+  | 'leaveRoom'
+  | 'createdRoom'
+  | 'roomJoined'
+  | 'roomUpdated'
+  | 'votesRevealed'
+  | 'votesReset'
+  | 'playerLeft'
+  | 'error';
 
-  // Server -> Client
-  roomCreated: (roomId: string) => void;
-  roomJoined: (room: Room) => void;
-  roomUpdated: (room: Room) => void;
-  votesRevealed: (room: Room) => void;
-  votesReset: (room: Room) => void;
-  playerLeft: (room: Room) => void;
-  error: (message: string) => void;
+export interface WSMessage {
+  type: WSMessageType;
+  payload?: any;
 }
 
 // Fibonacci sequence for planning poker cards

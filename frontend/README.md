@@ -9,7 +9,7 @@ Aplicação frontend de Planning Poker construída com React + Vite + TypeScript
 - **TypeScript** - Tipagem estática
 - **Tailwind CSS** - Estilização
 - **shadcn/ui** - Componentes UI
-- **Socket.IO Client** - Comunicação WebSocket
+- **WebSocket Nativo** - Comunicação em tempo real
 - **React Confetti** - Animação de confetes
 - **React Router** - Roteamento
 
@@ -63,30 +63,40 @@ npm run build
 
 ## Integração com Backend (Go)
 
-O frontend espera os seguintes eventos do Socket.IO:
+O frontend usa WebSocket nativo com mensagens JSON.
+
+### Formato das Mensagens
+
+Todas as mensagens seguem este formato:
+```json
+{
+  "type": "nomeDoEvento",
+  "payload": { ...dados... }
+}
+```
 
 ### Client -> Server
 
-| Evento | Payload | Descrição |
-|--------|---------|-----------|
-| `createRoom` | `(name: string, isSpectator: boolean)` | Criar nova sala |
-| `joinRoom` | `(roomId: string, name: string, isSpectator: boolean)` | Entrar em sala |
-| `vote` | `(value: number)` | Votar com um card |
+| Type | Payload | Descrição |
+|------|---------|-----------|
+| `createRoom` | `{ name: string, isSpectator: boolean }` | Criar nova sala |
+| `joinRoom` | `{ roomId: string, name: string, isSpectator: boolean }` | Entrar em sala |
+| `vote` | `{ value: number }` | Votar com um card |
 | `revealVotes` | `-` | Revelar todos os votos |
 | `resetVotes` | `-` | Resetar votos |
 | `leaveRoom` | `-` | Sair da sala |
 
 ### Server -> Client
 
-| Evento | Payload | Descrição |
-|--------|---------|-----------|
-| `roomCreated` | `(roomId: string)` | Sala criada com sucesso |
-| `roomJoined` | `(room: Room)` | Entrou na sala |
-| `roomUpdated` | `(room: Room)` | Sala atualizada |
-| `votesRevealed` | `(room: Room)` | Votos revelados |
-| `votesReset` | `(room: Room)` | Votos resetados |
-| `playerLeft` | `(room: Room)` | Jogador saiu |
-| `error` | `(message: string)` | Erro |
+| Type | Payload | Descrição |
+|------|---------|-----------|
+| `roomCreated` | `string` (roomId) | Sala criada com sucesso |
+| `roomJoined` | `Room` | Entrou na sala |
+| `roomUpdated` | `Room` | Sala atualizada |
+| `votesRevealed` | `Room` | Votos revelados |
+| `votesReset` | `Room` | Votos resetados |
+| `playerLeft` | `Room` | Jogador saiu |
+| `error` | `string` (mensagem) | Erro |
 
 ### Tipos
 
