@@ -17,6 +17,7 @@ type Player struct {
 type Room struct {
 	Hash     string
 	Name     string
+	OwnerID  string
 	Players  map[string]*Player
 	Revealed bool
 	mu       sync.RWMutex
@@ -33,13 +34,14 @@ func NewManager() *Manager {
 	}
 }
 
-func (m *Manager) AddRoom(hash, name string) *Room {
+func (m *Manager) AddRoom(hash, name, ownerID string) *Room {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
 	room := &Room{
 		Hash:    hash,
 		Name:    name,
+		OwnerID: ownerID,
 		Players: make(map[string]*Player),
 	}
 	m.rooms[hash] = room
@@ -178,6 +180,7 @@ func (r *Room) ToResponse() map[string]interface{} {
 	return map[string]interface{}{
 		"id":       r.Hash,
 		"name":     r.Name,
+		"ownerId":  r.OwnerID,
 		"players":  players,
 		"revealed": r.Revealed,
 		"average":  avgPtr,

@@ -13,6 +13,7 @@ import (
 
 type CreateRoomPayload struct {
 	Name        string `json:"name"`
+	UserID      string `json:"userId"`
 	IsSpectator bool   `json:"isSpectator"`
 }
 
@@ -39,7 +40,7 @@ func CreateRoom(conn *websocket.Conn, payload CreateRoomPayload, db *ent.Client,
 		return
 	}
 
-	manager.AddRoom(hash, payload.Name)
+	manager.AddRoom(hash, payload.Name, payload.UserID)
 
 	conn.WriteJSON(OutgoingMessage{
 		Type:    "createdRoom",

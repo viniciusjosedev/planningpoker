@@ -90,6 +90,13 @@ func (e *Event) ListenerEvents() {
 				})
 				continue
 			}
+			if e.Player == nil || e.Player.ID != e.Room.OwnerID {
+				e.Conn.WriteJSON(OutgoingMessage{
+					Type:    "error",
+					Payload: "Only the room owner can reveal votes",
+				})
+				continue
+			}
 			RevealVotes(e.Room)
 
 		case "resetVotes":
@@ -97,6 +104,13 @@ func (e *Event) ListenerEvents() {
 				e.Conn.WriteJSON(OutgoingMessage{
 					Type:    "error",
 					Payload: "Not in a room",
+				})
+				continue
+			}
+			if e.Player == nil || e.Player.ID != e.Room.OwnerID {
+				e.Conn.WriteJSON(OutgoingMessage{
+					Type:    "error",
+					Payload: "Only the room owner can reset votes",
 				})
 				continue
 			}
