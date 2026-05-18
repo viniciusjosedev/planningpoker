@@ -115,7 +115,6 @@ export function PokerRoomPage() {
   if (!joined) {
     return (
       <JoinForm
-        roomId={roomId}
         name={name}
         onNameChange={setName}
         isSpectator={isSpectator}
@@ -135,12 +134,10 @@ export function PokerRoomPage() {
     <>
       {showConfetti && <Confetti recycle={false} numberOfPieces={200} />}
       <GameArea
-        roomId={roomId}
         room={room}
         isCurrentSpectator={isCurrentSpectator}
         isOwner={isOwner}
         selectedCard={selectedCard}
-        showConfetti={showConfetti}
         onVote={handleVote}
         onReveal={handleReveal}
         onReset={handleReset}

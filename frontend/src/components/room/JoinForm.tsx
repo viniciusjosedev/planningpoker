@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 import { Users, Eye } from 'lucide-react';
 
 interface JoinFormProps {
-  roomId: string | undefined;
   name: string;
   onNameChange: (name: string) => void;
   isSpectator: boolean;
@@ -13,7 +12,6 @@ interface JoinFormProps {
 }
 
 export function JoinForm({
-  roomId,
   name,
   onNameChange,
   isSpectator,

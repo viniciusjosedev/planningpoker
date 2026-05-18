@@ -1,17 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { PokerCard } from '@/components/PokerCard';
 import { PlayerCard } from '@/components/PlayerCard';
-import { FIBONACCI_CARDS, type Room } from '@/types';
+import { FIBONACCI_CARDS, type Room, type Player } from '@/types';
 import { RefreshCw, Eye, LogOut } from 'lucide-react';
 import { useMemo } from 'react';
 
 interface GameAreaProps {
-  roomId: string | undefined;
   room: Room;
   isCurrentSpectator: boolean;
   isOwner: boolean;
   selectedCard: number | null;
-  showConfetti: boolean;
   onVote: (value: number) => void;
   onReveal: () => void;
   onReset: () => void;
@@ -62,7 +60,6 @@ function distributePlayersAroundTable(players: Player[]) {
 }
 
 export function GameArea({
-  roomId,
   room,
   isCurrentSpectator,
   isOwner,
