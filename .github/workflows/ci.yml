@@ -1,0 +1,32 @@
+name: postei-api
+
+on:
+  pull_request:
+    paths:
+      - "**.js"
+      - "**.ts"
+      - "**.json"
+      - "**.yml"
+      - "**.go"
+      - "Dockerfile"
+      - "prisma.schema"
+      - "**.sql"
+    branches: ["main"]
+
+  push:
+    paths:
+      - "**.js"
+      - "**.ts"
+      - "**.json"
+      - "**.yml"
+      - "Dockerfile"
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Trigger deploy
+        run: curl -s -X POST "${{ secrets.BACK_DEPLOY_WEBHOOK_URL }}"
+        run: curl -s -X POST "${{ secrets.FRONT_DEPLOY_WEBHOOK_URL }}"
