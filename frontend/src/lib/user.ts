@@ -1,4 +1,3 @@
-// Gera um UUID v4 simples
 export function generateUserId(): string {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0;
@@ -7,7 +6,6 @@ export function generateUserId(): string {
   });
 }
 
-// Recupera ou cria um userId no localStorage
 export function getUserId(): string {
   let userId = localStorage.getItem('userId');
   if (!userId) {
@@ -17,7 +15,6 @@ export function getUserId(): string {
   return userId;
 }
 
-// Salva/recupera o nome do usuário
 export function setUserName(name: string): void {
   localStorage.setItem('userName', name);
 }

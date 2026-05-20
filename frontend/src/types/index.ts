@@ -14,7 +14,6 @@ export interface Room {
   average: number | null;
 }
 
-// WebSocket message types
 export type WSMessageType =
   | 'createRoom'
   | 'joinRoom'
@@ -35,6 +34,5 @@ export interface WSMessage {
   payload?: any;
 }
 
-// Fibonacci sequence for planning poker cards
 export const FIBONACCI_CARDS = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89] as const;
 export type CardValue = typeof FIBONACCI_CARDS[number];

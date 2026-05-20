@@ -23,7 +23,6 @@ func JoinRoom(conn *websocket.Conn, payload JoinRoomPayload, manager *room.Manag
 		return
 	}
 
-	// Verifica se o jogador já existe
 	if _, exists := r.GetPlayer(payload.UserID); exists {
 		conn.WriteJSON(OutgoingMessage{
 			Type:    "error",
@@ -41,13 +40,11 @@ func JoinRoom(conn *websocket.Conn, payload JoinRoomPayload, manager *room.Manag
 
 	r.AddPlayer(player)
 
-	// Notifica o jogador que entrou
 	conn.WriteJSON(OutgoingMessage{
 		Type:    "roomJoined",
 		Payload: r.ToResponse(),
 	})
 
-	// Notifica todos os outros jogadores
 	r.Broadcast(OutgoingMessage{
 		Type:    "roomUpdated",
 		Payload: r.ToResponse(),

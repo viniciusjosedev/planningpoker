@@ -25,15 +25,12 @@ function distributePlayersAroundTable(players: Player[]) {
   const n = players.length;
 
   if (n <= 3) {
-    // All on top
     top.push(...players);
   } else if (n <= 6) {
-    // Top and bottom
     const topCount = Math.ceil(n / 2);
     top.push(...players.slice(0, topCount));
     bottom.push(...players.slice(topCount));
   } else if (n <= 10) {
-    // Top, bottom, left, right
     const sideCount = Math.min(Math.floor((n - 4) / 2), 3);
     const topBottomCount = n - sideCount * 2;
     const topCount = Math.ceil(topBottomCount / 2);
@@ -43,12 +40,7 @@ function distributePlayersAroundTable(players: Player[]) {
     top.push(...players.slice(sideCount, sideCount + topCount));
     right.push(...players.slice(sideCount + topCount, sideCount + topCount + sideCount));
     bottom.push(...players.slice(sideCount + topCount + sideCount));
-    // Fill remaining into bottom
-    if (bottom.length < bottomCount) {
-      // already handled
-    }
   } else {
-    // Many players: fill all sides
     const perSide = Math.ceil(n / 4);
     top.push(...players.slice(0, perSide));
     right.push(...players.slice(perSide, perSide * 2));

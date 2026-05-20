@@ -14,7 +14,6 @@ export function HomePage() {
   const [creating, setCreating] = useState(false);
   const createdRoomHandlerRef = useRef<((payload: any) => void) | null>(null);
 
-  // Cleanup listener on unmount
   useEffect(() => {
     return () => {
       if (createdRoomHandlerRef.current) {
@@ -23,7 +22,6 @@ export function HomePage() {
     };
   }, [off]);
 
-  // Listen for errors during room creation
   useEffect(() => {
     const errorHandler = (message: string) => {
       alert(message);
@@ -40,7 +38,6 @@ export function HomePage() {
 
     setCreating(true);
 
-    // Remove previous listener if exists
     if (createdRoomHandlerRef.current) {
       off('createdRoom', createdRoomHandlerRef.current);
     }
