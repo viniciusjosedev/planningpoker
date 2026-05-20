@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
-      - name: Trigger deploy
+      - name: Trigger backend deploy
         run: curl -s -X POST "${{ secrets.BACK_DEPLOY_WEBHOOK_URL }}"
+      - name: Trigger frontend deploy
         run: curl -s -X POST "${{ secrets.FRONT_DEPLOY_WEBHOOK_URL }}"
