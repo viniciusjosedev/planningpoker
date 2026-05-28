@@ -4,8 +4,10 @@ Real-time Planning Poker app for agile estimations, powered by WebSocket communi
 
 ## Stack
 
-- **Backend:** Go + WebSocket + Ent (ORM) + PostgreSQL
+- **Backend:** Go + WebSocket (in-memory, no database)
 - **Frontend:** React + TypeScript + Vite + Tailwind CSS
+
+Rooms are stored in memory and automatically cleaned up after 7 days of inactivity.
 
 ## Getting Started
 
