@@ -2,7 +2,6 @@ package server
 
 import (
 	"net/http"
-	"planningpoker/ent"
 	"planningpoker/env"
 	"planningpoker/events"
 	"planningpoker/room"
@@ -12,7 +11,6 @@ import (
 )
 
 type Server struct {
-	Db      *ent.Client
 	Manager *room.Manager
 }
 
@@ -29,7 +27,6 @@ func (s *Server) handleWS(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 
 	event := events.Event{
-		Db:      s.Db,
 		Manager: s.Manager,
 		Conn:    conn,
 	}

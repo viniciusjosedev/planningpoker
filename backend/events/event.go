@@ -2,7 +2,6 @@ package events
 
 import (
 	"encoding/json"
-	"planningpoker/ent"
 	"planningpoker/room"
 
 	"github.com/charmbracelet/log"
@@ -11,7 +10,6 @@ import (
 )
 
 type Event struct {
-	Db      *ent.Client
 	Manager *room.Manager
 	Conn    *websocket.Conn
 	Room    *room.Room
@@ -51,7 +49,7 @@ func (e *Event) ListenerEvents() {
 				log.Error("Failed to parse createRoom payload: %v", err)
 				continue
 			}
-			CreateRoom(e.Conn, payload, e.Db, e.Manager)
+			CreateRoom(e.Conn, payload, e.Manager)
 
 		case "joinRoom":
 			var payload JoinRoomPayload

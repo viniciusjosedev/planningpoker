@@ -2,9 +2,13 @@ package room
 
 import (
 	"sync"
+	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/gorilla/websocket"
 )
+
+const roomTTL = 7 * 24 * time.Hour
 
 type Player struct {
 	ID          string
@@ -15,12 +19,13 @@ type Player struct {
 }
 
 type Room struct {
-	Hash     string
-	Name     string
-	OwnerID  string
-	Players  map[string]*Player
-	Revealed bool
-	mu       sync.RWMutex
+	Hash       string
+	Name       string
+	OwnerID    string
+	Players    map[string]*Player
+	Revealed   bool
+	LastActive time.Time
+	mu         sync.RWMutex
 }
 
 type Manager struct {
@@ -29,8 +34,30 @@ type Manager struct {
 }
 
 func NewManager() *Manager {
-	return &Manager{
+	m := &Manager{
 		rooms: make(map[string]*Room),
+	}
+	go m.cleanupLoop()
+	return m
+}
+
+func (m *Manager) cleanupLoop() {
+	ticker := time.NewTicker(1 * time.Hour)
+	defer ticker.Stop()
+
+	for range ticker.C {
+		m.mu.Lock()
+		now := time.Now()
+		for hash, room := range m.rooms {
+			room.mu.RLock()
+			expired := now.Sub(room.LastActive) > roomTTL
+			room.mu.RUnlock()
+			if expired {
+				log.Infof("Removing expired room: %s (%s)", room.Name, hash)
+				delete(m.rooms, hash)
+			}
+		}
+		m.mu.Unlock()
 	}
 }
 
@@ -39,10 +66,11 @@ func (m *Manager) AddRoom(hash, name, ownerID string) *Room {
 	defer m.mu.Unlock()
 
 	room := &Room{
-		Hash:    hash,
-		Name:    name,
-		OwnerID: ownerID,
-		Players: make(map[string]*Player),
+		Hash:       hash,
+		Name:       name,
+		OwnerID:    ownerID,
+		Players:    make(map[string]*Player),
+		LastActive: time.Now(),
 	}
 	m.rooms[hash] = room
 	return room
@@ -68,6 +96,7 @@ func (r *Room) AddPlayer(player *Player) {
 	defer r.mu.Unlock()
 
 	r.Players[player.ID] = player
+	r.LastActive = time.Now()
 }
 
 func (r *Room) GetPlayer(id string) (*Player, bool) {
@@ -107,6 +136,7 @@ func (r *Room) SetVote(playerID string, vote int) {
 	if player, ok := r.Players[playerID]; ok {
 		player.Vote = &vote
 	}
+	r.LastActive = time.Now()
 }
 
 func (r *Room) RevealVotes() {
@@ -124,6 +154,7 @@ func (r *Room) ResetVotes() {
 	for _, player := range r.Players {
 		player.Vote = nil
 	}
+	r.LastActive = time.Now()
 }
 
 func (r *Room) GetPlayersList() []Player {
