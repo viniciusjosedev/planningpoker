@@ -34,7 +34,6 @@ function distributePlayersAroundTable(players: Player[]) {
     const sideCount = Math.min(Math.floor((n - 4) / 2), 3);
     const topBottomCount = n - sideCount * 2;
     const topCount = Math.ceil(topBottomCount / 2);
-    const bottomCount = topBottomCount - topCount;
 
     left.push(...players.slice(0, sideCount));
     top.push(...players.slice(sideCount, sideCount + topCount));

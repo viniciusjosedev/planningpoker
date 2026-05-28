@@ -9,7 +9,7 @@ echo "Building backend image..."
 docker build -t planningpoker-backend ./backend
 
 echo "Building frontend image..."
-docker build -t planningpoker-frontend ./frontend
+docker build -t planningpoker-frontend -f ./frontend/Dockerfile.prod ./frontend
 
 echo "Exporting backend image..."
 docker save planningpoker-backend | gzip > "$OUTPUT_DIR/planningpoker-backend.tar.gz"
