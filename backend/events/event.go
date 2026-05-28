@@ -33,7 +33,7 @@ func (e *Event) ListenerEvents() {
 		_, data, err := e.Conn.ReadMessage()
 		if err != nil {
 			if e.Room != nil && e.Player != nil {
-				LeaveRoom(e.Player.ID, e.Room)
+				LeaveRoom(e.Player.ID, e.Room, e.Conn)
 			}
 			break
 		}
@@ -118,7 +118,7 @@ func (e *Event) ListenerEvents() {
 
 		case "leaveRoom":
 			if e.Room != nil && e.Player != nil {
-				LeaveRoom(e.Player.ID, e.Room)
+				LeaveRoom(e.Player.ID, e.Room, e.Conn)
 				e.Room = nil
 				e.Player = nil
 			}

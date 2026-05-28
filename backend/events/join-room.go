@@ -23,10 +23,11 @@ func JoinRoom(conn *websocket.Conn, payload JoinRoomPayload, manager *room.Manag
 		return
 	}
 
-	if _, exists := r.GetPlayer(payload.UserID); exists {
+	if existing, exists := r.GetPlayer(payload.UserID); exists {
+		existing.Conn = conn
 		conn.WriteJSON(OutgoingMessage{
-			Type:    "error",
-			Payload: "Player already in room",
+			Type:    "roomJoined",
+			Payload: r.ToResponse(),
 		})
 		return
 	}

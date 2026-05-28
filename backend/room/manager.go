@@ -85,6 +85,21 @@ func (r *Room) RemovePlayer(id string) {
 	delete(r.Players, id)
 }
 
+func (r *Room) RemovePlayerIfConn(id string, conn *websocket.Conn) bool {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	player, ok := r.Players[id]
+	if !ok {
+		return false
+	}
+	if player.Conn != conn {
+		return false
+	}
+	delete(r.Players, id)
+	return true
+}
+
 func (r *Room) SetVote(playerID string, vote int) {
 	r.mu.Lock()
 	defer r.mu.Unlock()

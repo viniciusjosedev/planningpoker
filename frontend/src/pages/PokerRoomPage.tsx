@@ -10,7 +10,7 @@ import type { Room } from '@/types';
 export function PokerRoomPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
-  const { send, on, off } = useWebSocket();
+  const { send, on, off, connected } = useWebSocket();
 
   const [name, setName] = useState('');
   const [isSpectator, setIsSpectator] = useState(false);
@@ -23,6 +23,20 @@ export function PokerRoomPage() {
     const savedName = getUserName();
     if (savedName) setName(savedName);
   }, []);
+
+  useEffect(() => {
+    if (connected && joined && roomId) {
+      const savedName = getUserName();
+      if (savedName) {
+        send('joinRoom', {
+          roomId,
+          userId: getUserId(),
+          name: savedName,
+          isSpectator,
+        });
+      }
+    }
+  }, [connected]);
 
   useEffect(() => {
     const handleRoomJoined = (roomData: Room) => {
