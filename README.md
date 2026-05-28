@@ -18,7 +18,7 @@ Rooms are stored in memory and automatically cleaned up after 7 days of inactivi
 ### Start the application
 
 ```bash
-./up.sh
+./up
 ```
 
 The script checks if `.env` files exist. If not, it offers to create them from the `.env.example` files.
@@ -26,13 +26,47 @@ The script checks if `.env` files exist. If not, it offers to create them from t
 ### Restart
 
 ```bash
-./restart.sh
+./restart
 ```
 
 ### Stop
 
 ```bash
-./down.sh
+./down
+```
+
+### Running without Docker
+
+If you prefer to run the services directly on your machine:
+
+**Backend**
+
+```bash
+cd backend
+cp .env.example .env
+go mod tidy
+go run main.go
+```
+
+The backend reads the `PORT` environment variable (defaults to `:9999` if not set). Make sure `.env` exists with at least:
+
+```
+PORT=":9999"
+```
+
+**Frontend**
+
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
+```
+
+The frontend needs `VITE_WS_URL` pointing to the backend WebSocket endpoint. Make sure `.env` exists with at least:
+
+```
+VITE_WS_URL=ws://localhost:9999/ws
 ```
 
 ## Access
@@ -74,7 +108,7 @@ cp frontend/.env.example frontend/.env
 Use the helper script to build and export both images as compressed `.tar.gz` files:
 
 ```bash
-./build-images.sh
+./build-images
 ```
 
 This script:
