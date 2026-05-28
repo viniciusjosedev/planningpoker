@@ -62,7 +62,10 @@ export function GameArea({
   onLeave,
 }: GameAreaProps) {
   const { top, bottom, left, right } = useMemo(
-    () => distributePlayersAroundTable(room.players),
+    () => {
+      const sorted = [...room.players].sort((a, b) => a.id.localeCompare(b.id));
+      return distributePlayersAroundTable(sorted);
+    },
     [room.players]
   );
 
